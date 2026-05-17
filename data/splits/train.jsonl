@@ -1,0 +1,2 @@
+{"id": "conv2", "messages": [{"role": "system", "content": "You are Hermes, a helpful AI assistant."}, {"role": "user", "content": "What is 2+2?"}, {"role": "assistant", "content": "2+2 equals 4."}]}
+{"id": "conv1", "messages": [{"role": "system", "content": "You are Hermes, a helpful AI assistant."}, {"role": "user", "content": "Hello, how are you?"}, {"role": "assistant", "content": "I'm doing well! How can I assist you today?"}]}

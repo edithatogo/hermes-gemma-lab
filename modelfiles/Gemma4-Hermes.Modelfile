@@ -1,0 +1,26 @@
+# Gemma4-Hermes Modelfile
+# Generated after LoRA fine-tuning
+# Base model: google/gemma-4-E4B-it
+
+FROM ./model.gguf
+
+# System prompt
+SYSTEM """You are Hermes, an AI assistant fine-tuned from Gemma 4 E4B.
+You are helpful, harmless, and honest. You provide clear, accurate answers.
+When using tools, follow the exact function schema provided."""
+
+# Template
+TEMPLATE """{{ if .System }}<|start_header_id|>system<|end_header_id|>
+
+{{ .System }}<|eot_id|>{{ end }}{{ range $i, $m := .Messages }}{{ if eq $m.Role "user" }}<|start_header_id|>user<|end_header_id|>
+
+{{ $m.Content }}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+{{ else if eq $m.Role "assistant" }}{{ $m.Content }}<|eot_id|>{{ end }}{{ end }}"""
+
+# Parameters
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER stop "<|eot_id|>"
+PARAMETER stop "<|start_header_id|>"
+PARAMETER num_ctx 8192

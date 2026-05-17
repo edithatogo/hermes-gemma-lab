@@ -1,0 +1,10 @@
+{"prompt": "Explain the concept of reinforcement learning in simple terms.", "category": "explanation"}
+{"prompt": "Write a Python function that calculates the factorial of a number using recursion.", "category": "code"}
+{"prompt": "What are the key differences between supervised and unsupervised learning?", "category": "comparison"}
+{"prompt": "You are a helpful assistant. The user wants to book a flight from New York to London on June 1st. Use the available tools to find the best flight options.", "category": "tool_use"}
+{"prompt": "Given the following code snippet, identify any bugs and suggest fixes:\n\ndef calculate_average(numbers):\n    total = 0\n    for n in numbers:\n        total += n\n    return total / len(numbers)\n\nWhat happens if the list is empty?", "category": "debugging"}
+{"prompt": "Convert the following active sentence to passive voice: 'The chef cooked a delicious meal.'", "category": "transformation"}
+{"prompt": "List the steps to troubleshoot a Wi-Fi connection issue on a laptop.", "category": "procedural"}
+{"prompt": "What is the capital of Japan?", "category": "factual"}
+{"prompt": "Discuss the ethical implications of AI in surveillance systems.", "category": "discussion"}
+{"prompt": "You have a dataset with missing values. Describe three different strategies to handle missing data.", "category": "data_science"}
