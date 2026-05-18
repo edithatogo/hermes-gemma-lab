@@ -1,5 +1,5 @@
-model: lmstudio-community/gemma-4-E4B-it-MLX-4bit
-adapter_path: experiments/gemma4-e4b/lora_adapter
+model: Qwen/Qwen3-4B-MLX-4bit
+adapter_path: experiments/qwen3-4b/lora_adapter
 data: data/splits
 lora_rank: 16
 lora_scale: 20.0
