@@ -1,10 +1,16 @@
 .DS_Store
 __pycache__/
 *.pyc
+.venv
 .venv/
 venv/
 models/
 outputs/
 checkpoints/
+experiments/
+exports/
+eval/results/
+eval/*-results.jsonl
+eval/*-report.html
 *.gguf
 *.safetensors

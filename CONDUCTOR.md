@@ -1,52 +1,65 @@
-# Gemma 4 — Conductor Setup
+# Gemma/Qwen/Hermes — Conductor Context
 
-This repo is Track 1 of the Hermes Training Hub.
+This repo is the Gemma/Qwen/Hermes model track for the Hermes Training Hub.
 
 ## Hub References
 
 | Document | Location |
-|----------|----------|
+|---|---|
 | Hub conductor | `/Users/doughnut/GitHub/hermes-training/CONDUCTOR.md` |
-| MoSCoW requirements | `/Users/doughnut/GitHub/hermes-training/REQUIREMENTS.md` |
-| Architecture design | `/Users/doughnut/GitHub/hermes-training/DESIGN.md` |
-| Interface contracts | `/Users/doughnut/GitHub/hermes-training/CONTRACTS.md` |
+| Benchmark plan | `/Users/doughnut/GitHub/hermes-training/BENCHMARKING_PLAN.md` |
+| Standard benchmarks | `/Users/doughnut/GitHub/hermes-training/STANDARD_BENCHMARKS.md` |
+| Documentation plan | `/Users/doughnut/GitHub/hermes-training/DOCUMENTATION_PLAN.md` |
+| Applications | `/Users/doughnut/GitHub/hermes-training/APPLICATIONS.md` |
 
 ## Track Status
 
 | Requirement | Status |
-|-------------|--------|
-| M1 MLX LoRA pipeline | ✅ scripts/train.py written, verified dry-run |
-| M2 Download dataset | 🔄 download_hermes_dataset.py running |
-| M3 Train on Hermes data | 🔄 Awaiting model + dataset downloads |
-| M4 Save adapter | 🔄 Will run after training |
-| M8 Dataset dedup | ✅ build_dataset.py tested on sample data |
-| M9 Apple Silicon MLX | ✅ mlx + mlx-lm installed |
-| M10 SSD caching | ✅ HF_HOME=/Volumes/PortableSSD/... |
-| S1 Eval comparison | ✅ scripts/evaluate.py + compare.py written |
-| S3 HF publishing | ✅ scripts/push_to_hf.sh + model cards written |
+|---|---|
+| MLX LoRA pipeline | Script fixed and readiness-validated |
+| Dataset splits | Present: train/val/valid/test JSONL |
+| Dataset compatibility | Chat dataset wrapper fixed for current `mlx-lm` |
+| Qwen3 4B smoke config | Present |
+| Qwen3 4B model download | Stalled unauthenticated; retry with `HF_TOKEN` or prefetch |
+| Hermes 4 baseline config | Present as experimental/baseline target |
+| Qwen3.6/Gemma4 MoE configs | Present as experimental runtime/teacher targets |
+| SSD caching | Managed by hub `scripts/env.sh` |
 
-## Active Processes
+## Current Models
 
-| Process | PID | What |
-|---------|-----|------|
-| proc_73119ed18037 | 98060 | Gemma 4 model download (~16 GB, 3.5 MB/s) |
-| proc_1f512fca91da | 39708 | Hermes dataset download (gemma4) |
+| Model | Role | Status |
+|---|---|---|
+| `Qwen/Qwen3-4B-MLX-4bit` | Practical local fine-tune target | Configured; download retry needed |
+| `NousResearch/Hermes-4-14B` | Hermes-aligned baseline/teacher | Configured; runtime proof before local training |
+| `Qwen/Qwen3.6-35B-A3B` | Frontier MoE baseline/teacher | Runtime first, do not local-train by default |
+| `google/gemma-4-26B-A4B-it` | Frontier MoE baseline | Runtime first, do not local-train by default |
+| `lmstudio-community/gemma-4-E4B-it-MLX-4bit` | Original Gemma track default | Keep as fallback |
+
+## Next Actions
+
+1. Authenticate Hugging Face or prefetch Qwen3 4B to `/Volumes/PortableSSD/huggingface`.
+2. Run Qwen3 4B smoke training after the download is complete.
+3. Run base vs adapter Hermes-local eval.
+4. Use Hermes 4 14B as a behavior baseline and possible teacher/evaluator before training larger adapters.
+5. Treat Qwen3.6/Gemma4 MoE as runtime/teacher candidates until memory and licensing proofs are documented.
 
 ## Contracts in Effect
 
-- CONTRACT-001: `data/raw/*.jsonl` (Hermes-style messages format)
-- CONTRACT-002: `data/splits/*.jsonl` (deduped, 80/10/10 split)
-- CONTRACT-003: `scripts/train_config.yaml` (MLX LoRA params)
-- CONTRACT-004: `experiments/gemma4-e4b/lora_adapter/` (adapter output)
-- CONTRACT-005: `eval/` (eval input/output format)
-- CONTRACT-006: `modelfiles/Gemma4-Hermes.Modelfile` (Ollama packaging)
-- CONTRACT-007/008: HF repos (publishing format)
+- `data/raw/*.jsonl`: raw Hermes-style messages.
+- `data/splits/*.jsonl`: train/val/valid/test split JSONL.
+- `scripts/train_config*.yaml`: MLX LoRA or experimental config.
+- `experiments/*/lora_adapter/`: ignored local adapter output.
+- `eval/prompts.jsonl`: seed eval input, to be expanded.
+- `modelfiles/*.Modelfile`: runtime packaging input.
 
-## Context Preservation Notes
+## Application Notes
 
-When working here:
-- Load `kanban-orchestrator` for task decomposition
-- Load `kanban-worker` for implementation context
-- This repo only tracks Gemma 4 work. LFM2 is in `/Users/doughnut/GitHub/hermes-training/lfm2/`
-- Training runs on M1 Max 32GB — batch size capped at 4 for 8B models
-- Downloads go to portable SSD at `/Volumes/PortableSSD/`
+This track supports:
+
+- stronger local coding assistant candidates
+- Hermes-aligned tool-use and function-calling adapters
+- baseline/teacher comparisons against Hermes 4
+- runtime experiments with large active-sparse MoE models
+- benchmark comparisons against LFM-family low-latency adapters
+
+Do not publish a Qwen/Gemma/Hermes adapter until the standard benchmark gate in the hub passes.

@@ -27,6 +27,33 @@ from mlx_lm.tuner import (
 from mlx_lm.tuner.datasets import load_dataset
 from mlx_lm.tuner.trainer import TrainingArgs
 
+def count_parameters(params):
+    total = 0
+    if isinstance(params, dict):
+        for value in params.values():
+            total += count_parameters(value)
+    elif isinstance(params, (list, tuple)):
+        for value in params:
+            total += count_parameters(value)
+    elif hasattr(params, "size"):
+        total += params.size
+    return total
+
+class ProcessedDataset:
+    def __init__(self, dataset):
+        self.dataset = dataset
+
+    def __getitem__(self, idx):
+        return self.dataset.process(self.dataset[idx])
+
+    def __len__(self):
+        return len(self.dataset)
+
+def ensure_processed_dataset(dataset):
+    if hasattr(dataset, "process"):
+        return ProcessedDataset(dataset)
+    return dataset
+
 def main():
     parser = argparse.ArgumentParser(description="Fine-tune with LoRA using MLX.")
     parser.add_argument("--config", type=Path, required=True, help="YAML config path.")
@@ -81,7 +108,7 @@ def main():
         "dropout": lora_dropout,
     }
     linear_to_lora_layers(model, lora_layers, lora_config)
-    p_num = sum(p.size for p in model.trainable_parameters().values())
+    p_num = count_parameters(model.trainable_parameters())
     print(f"  Trainable parameters: {p_num:,}")
 
     # Step 3: Load dataset
@@ -99,6 +126,8 @@ def main():
 
     print(f"\nLoading dataset from: {data_path}")
     train_set, valid_set, _ = load_dataset(ds_args, tokenizer)
+    train_set = ensure_processed_dataset(train_set)
+    valid_set = ensure_processed_dataset(valid_set)
     print(f"  Train samples: {len(train_set)}")
     print(f"  Valid samples: {len(valid_set)}")
 
@@ -118,6 +147,7 @@ def main():
     )
 
     # Step 5: Train
+    adapter_dir.mkdir(parents=True, exist_ok=True)
     print(f"\nStarting training for {iters} iterations...")
     print(f"  Batch size: {batch_size}")
     print(f"  Learning rate: {learning_rate}")
@@ -134,10 +164,16 @@ def main():
     print(f"\nTraining complete in {elapsed:.1f}s")
 
     # Step 6: Save adapter metadata
-    adapter_dir.mkdir(parents=True, exist_ok=True)
     with open(adapter_dir / "adapter_config.json", "w") as f:
         json.dump({
             "model": model_name,
+            "fine_tune_type": "lora",
+            "num_layers": lora_layers,
+            "lora_parameters": {
+                "rank": lora_rank,
+                "scale": lora_scale,
+                "dropout": lora_dropout,
+            },
             "lora_rank": lora_rank,
             "lora_scale": lora_scale,
             "lora_dropout": lora_dropout,

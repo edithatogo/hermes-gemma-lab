@@ -203,6 +203,12 @@ def main():
                 f.write(json.dumps(out_obj) + "\n")
         print(f"Wrote {len(split_data)} conversations to {out_file}")
 
+    # mlx-lm expects valid.jsonl, while this repo historically used val.jsonl.
+    valid_file = args.output_dir / "valid.jsonl"
+    val_file = args.output_dir / "val.jsonl"
+    valid_file.write_text(val_file.read_text(encoding="utf-8"), encoding="utf-8")
+    print(f"Wrote validation alias to {valid_file}")
+
     # Print summary
     print("\n=== Dataset Summary ===")
     print(f"Total conversations: {n_total}")

@@ -1,0 +1,19 @@
+# Experimental only: use Hermes 4 primarily as a baseline/teacher first.
+model: NousResearch/Hermes-4-14B
+adapter_path: experiments/hermes4-14b/lora_adapter
+data: data/splits
+lora_rank: 8
+lora_scale: 16.0
+lora_dropout: 0.0
+lora_layers: 8
+batch_size: 1
+iters: 20
+val_batches: 2
+steps_per_report: 5
+steps_per_eval: 20
+steps_per_save: 20
+max_seq_length: 1024
+learning_rate: 5e-5
+grad_checkpoint: true
+grad_accumulation_steps: 8
+seed: 42
