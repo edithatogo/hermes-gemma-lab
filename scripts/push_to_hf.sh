@@ -1,5 +1,5 @@
 #!/bin/bash
-# Push adapter and dataset card to Hugging Face Hub.
+# Preflight Hugging Face publication readiness, then push adapter and dataset card.
 # Usage: scripts/push_to_hf.sh [adapter_dir]
 
 set -euo pipefail
@@ -9,6 +9,8 @@ ADAPTER_DIR="${1:-$REPO_DIR/experiments/gemma4-e4b/lora_adapter}"
 HF_USERNAME="${HF_USERNAME:-edithatogo}"
 ADAPTER_REPO="${ADAPTER_REPO:-${HF_USERNAME}/gemma4-e4b-hermes-lora}"
 DATASET_REPO="${DATASET_REPO:-${HF_USERNAME}/hermes-training-data}"
+PUBLICATION_DIR="${PUBLICATION_DIR:-$REPO_DIR/reports/publication/$(basename "$(dirname "$ADAPTER_DIR")")}"
+READINESS_CHECKLIST="${READINESS_CHECKLIST:-$PUBLICATION_DIR/publish-readiness-checklist.md}"
 
 command -v hf >/dev/null || {
     echo "Missing 'hf' CLI. Install huggingface_hub or run from the project venv." >&2
@@ -26,7 +28,19 @@ if [ ! -f "$ADAPTER_DIR/adapters.safetensors" ]; then
     exit 1
 fi
 
-echo "=== Hugging Face publish ==="
+if [ ! -f "$READINESS_CHECKLIST" ]; then
+    echo "Missing publication readiness checklist: $READINESS_CHECKLIST" >&2
+    echo "Create the checklist and mark Publication status: READY before publishing." >&2
+    exit 1
+fi
+
+if ! grep -qx 'Publication status: READY' "$READINESS_CHECKLIST"; then
+    echo "Adapter publication blocked by $READINESS_CHECKLIST" >&2
+    echo "Strict local tool-call benchmark must pass before the checklist can be marked READY." >&2
+    exit 1
+fi
+
+echo "=== Hugging Face publication preflight passed ==="
 echo "Adapter: $ADAPTER_REPO"
 echo "Dataset: $DATASET_REPO"
 

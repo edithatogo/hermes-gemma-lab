@@ -1,0 +1,21 @@
+# Tool-call shape repair proof for Qwen3 4B.
+# This intentionally trains on a tiny strict target set to verify whether the
+# local lane can learn the required <tool_call>{"name": ..., "arguments": ...}</tool_call> shape.
+model: Qwen/Qwen3-4B-MLX-4bit
+adapter_path: experiments/qwen3-4b-toolcall-repair/lora_adapter
+data: data/tool_call_splits
+lora_rank: 8
+lora_scale: 16.0
+lora_dropout: 0.0
+lora_layers: 8
+batch_size: 1
+iters: 40
+val_batches: 2
+steps_per_report: 5
+steps_per_eval: 5
+steps_per_save: 5
+max_seq_length: 2048
+learning_rate: 5e-5
+grad_checkpoint: true
+grad_accumulation_steps: 4
+seed: 43
