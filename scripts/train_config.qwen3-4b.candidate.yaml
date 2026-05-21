@@ -1,0 +1,20 @@
+# Local-safe Qwen3 follow-on: expands beyond the 2,889-token smoke run.
+# Keep SSD-first cache/env setup via `source ../scripts/env.sh` before use.
+model: Qwen/Qwen3-4B-MLX-4bit
+adapter_path: experiments/qwen3-4b-candidate/lora_adapter
+data: data/splits
+lora_rank: 8
+lora_scale: 16.0
+lora_dropout: 0.0
+lora_layers: 8
+batch_size: 1
+iters: 60
+val_batches: 4
+steps_per_report: 5
+steps_per_eval: 5
+steps_per_save: 5
+max_seq_length: 1024
+learning_rate: 5e-5
+grad_checkpoint: true
+grad_accumulation_steps: 4
+seed: 42

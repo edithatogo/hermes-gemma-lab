@@ -29,7 +29,7 @@ This repo is the Gemma/Qwen/Hermes model track for the Hermes Training Hub.
 
 | Model | Role | Status |
 |---|---|---|
-| `Qwen/Qwen3-4B-MLX-4bit` | Practical local fine-tune target | Configured; download retry needed |
+| `Qwen/Qwen3-4B-MLX-4bit` | Practical local fine-tune target | Smoke and 60-step candidate proof complete; tool-call data needs improvement |
 | `NousResearch/Hermes-4-14B` | Hermes-aligned baseline/teacher | Configured; runtime proof before local training |
 | `Qwen/Qwen3.6-35B-A3B` | Frontier MoE baseline/teacher | Runtime first, do not local-train by default |
 | `google/gemma-4-26B-A4B-it` | Frontier MoE baseline | Runtime first, do not local-train by default |
@@ -37,9 +37,9 @@ This repo is the Gemma/Qwen/Hermes model track for the Hermes Training Hub.
 
 ## Next Actions
 
-1. Authenticate Hugging Face or prefetch Qwen3 4B to `/Volumes/PortableSSD/huggingface`.
-2. Run Qwen3 4B smoke training after the download is complete.
-3. Run base vs adapter Hermes-local eval.
+1. Add explicit strict tool-call target data before extending Qwen3 training beyond the 25k-token candidate proof.
+2. Keep `scripts/train_config.qwen3-4b.smoke.yaml` as the pipeline proof and `scripts/train_config.qwen3-4b.candidate.yaml` as the local-safe checkpoint cadence.
+3. Re-run the local tool-call benchmark after any tool-call data update.
 4. Use Hermes 4 14B as a behavior baseline and possible teacher/evaluator before training larger adapters.
 5. Treat Qwen3.6/Gemma4 MoE as runtime/teacher candidates until memory and licensing proofs are documented.
 
