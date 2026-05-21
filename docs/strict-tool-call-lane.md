@@ -5,7 +5,9 @@ This lane is a small, checked-in seed set for supervised strict tool-call traini
 ## Location
 
 - Raw seed: `gemma4/data/strict_tool_call/raw/seed.jsonl`
-- Materialized splits: `gemma4/data/strict_tool_call/splits/{train,val,test,valid}.jsonl`
+- Expansion policy and seed docs: `gemma4/data/strict_tool_call/EXPANSION.md`
+- Original seed materialized splits: `gemma4/data/strict_tool_call/splits/{train,val,test,valid}.jsonl`
+- Expanded materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v1/{train,val,test,valid}.jsonl`
 
 ## Format
 
@@ -38,7 +40,21 @@ The seed is split deterministically by sorted `id`:
 3. take the next 10% as `val`
 4. take the remainder as `test`
 
-For the current 10-example seed, that yields 8 train examples, 1 validation example, and 1 test example.
+For the current 10-example materialized seed, that yields 8 train examples, 1 validation example, and 1 test example.
+
+Expansion seeds under `gemma4/data/strict_tool_call/raw/expansion_seed_*.jsonl` are staged data until explicitly promoted into materialized splits. The original 10-example seed remains materialized under `splits/`; approved expanded raw seeds materialize to `expanded_splits_v1/` for expanded retrain attempts. Promotion must follow the same deterministic split policy across the approved raw seed files and must preserve `valid.jsonl` as an exact alias of `val.jsonl`.
+
+## Contamination Guard
+
+The held-out benchmark suite must never be copied, paraphrased, or mechanically transformed into training data. Before promoting any expansion seed, compare candidate records against both `benchmarks/tool_call_local/suite.json` and `benchmarks/tool_call_local/heldout_suite.json` for:
+
+- exact `id` overlap
+- exact normalized message overlap
+- exact final assistant target overlap
+- exact first user prompt overlap
+- exact tool-name set plus first user prompt overlap
+
+Any overlap with `heldout_suite.json` blocks promotion. Overlap with `suite.json` is allowed only for the original benchmark-mirrored seed and must be documented as non-heldout regression data, not publication evidence.
 
 ## SSD And Artifact Policy
 
