@@ -53,4 +53,6 @@ Only the tiny checked-in seed JSONL and the associated docs/contracts belong in 
 
 ## Benchmark Link
 
-The local benchmark suite in `benchmarks/tool_call_local/suite.json` is the regression target for this lane. The seed examples should stay aligned with those categories and exact-output expectations.
+The local mirrored benchmark suite in `benchmarks/tool_call_local/suite.json` is the regression target for this lane. The seed examples should stay aligned with those categories and exact-output expectations.
+
+The publication gate is separate: `benchmarks/tool_call_local/heldout_suite.json` contains held-out strict examples that do not overlap the benchmark-mirrored seed. A strict tool-call adapter cannot be marked publishable unless that held-out suite passes at `1.000`.
