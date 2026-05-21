@@ -16,6 +16,12 @@ Folder structure:
 - scripts/ — helper scripts for dataset, training, eval, export
 - modelfiles/ — Ollama Modelfile(s)
 
+Export policy:
+
+- `scripts/export_gguf.sh` and `scripts/export_ollama.sh` default to `$HERMES_EXPORT_ROOT/ollama/<model>` when `scripts/env.sh` is sourced.
+- If `$HERMES_EXPORT_ROOT` is not set and `/Volumes/PortableSSD` exists, exports default to `/Volumes/PortableSSD/hermes-exports/ollama/<model>`.
+- Keep merged models, GGUF files, and Ollama packages out of the repo tree.
+
 Configs:
 
 - `scripts/train_config.yaml` — Gemma-family default.

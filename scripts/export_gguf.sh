@@ -7,7 +7,14 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 ADAPTER_DIR="${1:-$REPO_DIR/experiments/gemma4-e4b/lora_adapter}"
 MODEL_NAME="${2:-gemma4-hermes}"
-OUTPUT_DIR="$REPO_DIR/exports/ollama/$MODEL_NAME"
+if [ -z "${HERMES_EXPORT_ROOT:-}" ]; then
+    if [ -d /Volumes/PortableSSD ]; then
+        HERMES_EXPORT_ROOT="/Volumes/PortableSSD/hermes-exports"
+    else
+        HERMES_EXPORT_ROOT="$REPO_DIR/exports"
+    fi
+fi
+OUTPUT_DIR="${OUTPUT_DIR:-$HERMES_EXPORT_ROOT/ollama/$MODEL_NAME}"
 
 echo "=== Exporting to Ollama ==="
 echo "Adapter: $ADAPTER_DIR"
@@ -16,7 +23,7 @@ echo "Output: $OUTPUT_DIR"
 echo ""
 
 # Ensure llama.cpp is available
-LLAMA_CPP_DIR="$REPO_DIR/../llama.cpp"
+LLAMA_CPP_DIR="${LLAMA_CPP_DIR:-${HERMES_STORAGE_ROOT:-$REPO_DIR/..}/llama.cpp}"
 if [ ! -d "$LLAMA_CPP_DIR" ]; then
     echo "llama.cpp not found at $LLAMA_CPP_DIR"
     echo "Cloning..."

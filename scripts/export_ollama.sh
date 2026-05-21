@@ -7,7 +7,14 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 ADAPTER="${1:-$REPO_DIR/experiments/gemma4-e4b/lora_adapter}"
 MODEL_NAME="${2:-gemma4-hermes}"
-WORK_DIR="$REPO_DIR/exports/ollama/$MODEL_NAME"
+if [ -z "${HERMES_EXPORT_ROOT:-}" ]; then
+    if [ -d /Volumes/PortableSSD ]; then
+        HERMES_EXPORT_ROOT="/Volumes/PortableSSD/hermes-exports"
+    else
+        HERMES_EXPORT_ROOT="$REPO_DIR/exports"
+    fi
+fi
+WORK_DIR="${WORK_DIR:-$HERMES_EXPORT_ROOT/ollama/$MODEL_NAME}"
 MERGE_DIR="$WORK_DIR/merged"
 OLLAMA_DIR="$WORK_DIR/ollama-pkg"
 
@@ -50,7 +57,7 @@ if not list(merge_dir.glob('*')):
 fi
 
 # Step 2: Install llama.cpp if needed
-LLAMA_CPP="$REPO_DIR/../llama.cpp"
+LLAMA_CPP="${LLAMA_CPP_DIR:-${HERMES_STORAGE_ROOT:-$REPO_DIR/..}/llama.cpp}"
 if [ ! -f "$LLAMA_CPP/convert_hf_to_gguf.py" ]; then
     echo "Step 2: Cloning llama.cpp..."
     git clone --depth 1 https://github.com/ggerganov/llama.cpp.git "$LLAMA_CPP"
