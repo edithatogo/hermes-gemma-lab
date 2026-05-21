@@ -6,8 +6,12 @@ This directory contains non-heldout expansion material for the strict tool-call 
 
 - `raw/seed.jsonl`: original 10-example seed, intentionally aligned with `benchmarks/tool_call_local/suite.json`.
 - `raw/expansion_seed_v1.jsonl`: 32 new synthetic expansion examples.
+- `raw/expansion_seed_v2.jsonl`: 8 format-guard examples that explicitly forbid `<think>` and `</think>` wrappers.
 - `tools/build_expansion_seed.py`: deterministic generator for `raw/expansion_seed_v1.jsonl`.
+- `tools/build_format_guard_seed.py`: deterministic generator for `raw/expansion_seed_v2.jsonl`.
 - `splits/{train,val,test,valid}.jsonl`: current materialized training splits. These are not automatically changed by adding an expansion seed.
+- `expanded_splits_v2/{train,val,test,valid}.jsonl`: seed + v1 + v2 materialized splits.
+- `expanded_splits_v3_no_think/{train,val,test,valid}.jsonl`: v2 splits with `/no_think`-prefixed training duplicates.
 
 ## Expansion Coverage
 
@@ -19,6 +23,10 @@ This directory contains non-heldout expansion material for the strict tool-call 
 - `multi_turn_repair`: 8 examples
 
 The examples target strict JSON formatting, exact argument capture, refusal when a requested tool is absent, and multi-turn correction after incomplete or malformed prior tool calls.
+
+`expansion_seed_v2` adds 8 `format_guard` examples. These do not copy held-out prompts or tools; they target the observed Qwen failure mode where otherwise correct tool calls are preceded by empty or malformed thinking wrappers.
+
+`expanded_splits_v3_no_think` duplicates the v2 training rows with `/no_think` prefixed to the first user turn. Validation and test rows are not augmented. This matches the held-out benchmark invocation shape while preserving the same strict assistant targets.
 
 ## Split Policy
 
@@ -58,6 +66,9 @@ Regenerate the expansion file with:
 
 ```bash
 python3 gemma4/data/strict_tool_call/tools/build_expansion_seed.py
+python3 gemma4/data/strict_tool_call/tools/build_format_guard_seed.py
+python3 gemma4/data/strict_tool_call/tools/materialize_expanded_splits_v2.py
+python3 gemma4/data/strict_tool_call/tools/materialize_no_think_splits_v3.py
 ```
 
 The generator writes deterministic compact JSONL. Review the diff after regeneration and rerun JSONL plus overlap validation before using the data for training.

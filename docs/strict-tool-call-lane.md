@@ -8,6 +8,8 @@ This lane is a small, checked-in seed set for supervised strict tool-call traini
 - Expansion policy and seed docs: `gemma4/data/strict_tool_call/EXPANSION.md`
 - Original seed materialized splits: `gemma4/data/strict_tool_call/splits/{train,val,test,valid}.jsonl`
 - Expanded materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v1/{train,val,test,valid}.jsonl`
+- Format-guard materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v2/{train,val,test,valid}.jsonl`
+- `/no_think` augmented materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v3_no_think/{train,val,test,valid}.jsonl`
 
 ## Format
 
@@ -42,7 +44,9 @@ The seed is split deterministically by sorted `id`:
 
 For the current 10-example materialized seed, that yields 8 train examples, 1 validation example, and 1 test example.
 
-Expansion seeds under `gemma4/data/strict_tool_call/raw/expansion_seed_*.jsonl` are staged data until explicitly promoted into materialized splits. The original 10-example seed remains materialized under `splits/`; approved expanded raw seeds materialize to `expanded_splits_v1/` for expanded retrain attempts. Promotion must follow the same deterministic split policy across the approved raw seed files and must preserve `valid.jsonl` as an exact alias of `val.jsonl`.
+Expansion seeds under `gemma4/data/strict_tool_call/raw/expansion_seed_*.jsonl` are staged data until explicitly promoted into materialized splits. The original 10-example seed remains materialized under `splits/`; approved expanded raw seeds materialize to named `expanded_splits_*` directories for retrain attempts. Promotion must follow the same deterministic split policy across the approved raw seed files and must preserve `valid.jsonl` as an exact alias of `val.jsonl`.
+
+`expanded_splits_v2` adds explicit format-guard examples that forbid `<think>` and `</think>` wrappers. `expanded_splits_v3_no_think` duplicates the v2 training rows with `/no_think` prefixed to the first user turn; validation and test rows remain unaugmented so they continue to measure target behavior rather than prompt memorization.
 
 ## Contamination Guard
 
@@ -65,7 +69,7 @@ Keep all generated training, evaluation, and export artifacts on the SSD-backed 
 - exports go under `$HERMES_EXPORT_ROOT`
 - nothing under those generated paths should be committed
 
-Only the tiny checked-in seed JSONL and the associated docs/contracts belong in Git.
+Only the tiny checked-in seed JSONL, deterministic split JSONL, tool scripts, and associated docs/contracts belong in Git.
 
 ## Benchmark Link
 
