@@ -33,7 +33,7 @@ Configs:
 - `scripts/train_config.qwen3-4b.strict-toolcall-expanded.yaml` — expanded strict tool-call retrain; completed but not publishable because held-out strict pass is `0.250`.
 - `scripts/train_config.qwen3-4b.strict-toolcall-v2.yaml` — format-guard retrain; completed but not publishable because held-out strict pass is `0.250`.
 - `scripts/train_config.qwen3-4b.strict-toolcall-v3-no-think.yaml` — `/no_think`-augmented retrain; completed but not publishable because held-out strict pass is `0.250`.
-- `scripts/train_config.qwen3-4b.strict-toolcall-v4-targeted.yaml` — targeted generalization retrain; completed but not publishable because held-out strict pass is `0.250`, although empty-think-stripped diagnostic pass is `1.000`.
+- `scripts/train_config.qwen3-4b.strict-toolcall-v4-targeted.yaml` — targeted generalization retrain; no-prefill strict pass is `0.250`, but `/no_think` plus assistant prefill passes held-out strict at `1.000`; publication still needs runtime-condition and dataset/source review.
 - `scripts/train_config.qwen3.6-35b-a3b.experimental.yaml` — Qwen3.6 frontier MoE smoke config; inference/teacher target first.
 - `scripts/train_config.gemma4-26b-a4b.experimental.yaml` — Gemma 4 26B A4B smoke config; runtime target first.
 - `scripts/train_config.hermes4-14b.experimental.yaml` — Hermes 4 14B smoke config; baseline/teacher target first.
