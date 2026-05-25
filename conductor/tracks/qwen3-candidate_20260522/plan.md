@@ -15,7 +15,7 @@
 ## Phase 3: Track Notes
 
 - [x] Task: record the candidate handoff and validation notes in the gemma4 hub docs.
-- [x] Task: keep the track incomplete until a real candidate run and gate result exist.
+- [x] Task: confirm the track can close because the candidate run and gate result now exist.
 
 ## Health Check
 
