@@ -46,7 +46,7 @@ For the current 10-example materialized seed, that yields 8 train examples, 1 va
 
 Expansion seeds under `gemma4/data/strict_tool_call/raw/expansion_seed_*.jsonl` are staged data until explicitly promoted into materialized splits. The original 10-example seed remains materialized under `splits/`; approved expanded raw seeds materialize to named `expanded_splits_*` directories for retrain attempts. Promotion must follow the same deterministic split policy across the approved raw seed files and must preserve `valid.jsonl` as an exact alias of `val.jsonl`.
 
-`expanded_splits_v2` adds explicit format-guard examples that forbid `<think>` and `</think>` wrappers. `expanded_splits_v3_no_think` duplicates the v2 training rows with `/no_think` prefixed to the first user turn; validation and test rows remain unaugmented so they continue to measure target behavior rather than prompt memorization.
+`expanded_splits_v2` adds explicit format-guard examples that forbid `<think>` and `</think>` wrappers. `expanded_splits_v3_no_think` duplicates the v2 training rows with `/no_think` prefixed to the first user turn; validation and test rows remain unaugmented so they continue to measure target behavior rather than prompt memorization. `expanded_splits_v4_targeted` adds non-heldout targeted rows for exact message extraction and nested object-array arguments; its held-out run reached perfect empty-think-stripped diagnostic scoring, but strict publication remains blocked by Qwen's empty thinking wrapper.
 
 ## Contamination Guard
 
