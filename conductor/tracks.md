@@ -9,3 +9,8 @@ Each track index should surface its spec, plan, and the conductor-root requireme
 
 ## [x] Track: Qwen3 4B candidate training
 *Link: [./tracks/qwen3-candidate_20260522/](./tracks/qwen3-candidate_20260522/)*
+
+---
+
+## [x] Track: Qwen3 strict tool-call v5 pilot polish
+*Link: [./tracks/qwen3-v5-pilot-polish_20260525/](./tracks/qwen3-v5-pilot-polish_20260525/)*

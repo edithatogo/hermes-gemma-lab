@@ -1,0 +1,8 @@
+{
+  "track_id": "qwen3-v5-pilot-polish_20260525",
+  "type": "experiment",
+  "status": "completed",
+  "created_at": "2026-05-25T00:00:00Z",
+  "updated_at": "2026-05-25T00:00:00Z",
+  "description": "Qwen3 strict tool-call v5 invalid-tool pilot polish experiment"
+}
