@@ -7,7 +7,7 @@ from pathlib import Path
 
 import requests
 
-REPO_DIR = Path("/Users/doughnut/GitHub/hermes-training/gemma4")
+REPO_DIR = Path(__file__).resolve().parents[1]
 RAW_DIR = REPO_DIR / "data/raw"
 
 def download_raw_file(url, output_path, label="file"):

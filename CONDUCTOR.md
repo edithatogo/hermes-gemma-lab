@@ -6,11 +6,11 @@ This repo is the Gemma/Qwen/Hermes model track for the Hermes Training Hub.
 
 | Document | Location |
 |---|---|
-| Hub conductor | `/Users/doughnut/GitHub/hermes-training/CONDUCTOR.md` |
-| Benchmark plan | `/Users/doughnut/GitHub/hermes-training/BENCHMARKING_PLAN.md` |
-| Standard benchmarks | `/Users/doughnut/GitHub/hermes-training/STANDARD_BENCHMARKS.md` |
-| Documentation plan | `/Users/doughnut/GitHub/hermes-training/DOCUMENTATION_PLAN.md` |
-| Applications | `/Users/doughnut/GitHub/hermes-training/APPLICATIONS.md` |
+| Hub conductor | `/Volumes/PortableSSD/GitHub/hermes-training/CONDUCTOR.md` |
+| Benchmark plan | `/Volumes/PortableSSD/GitHub/hermes-training/BENCHMARKING_PLAN.md` |
+| Standard benchmarks | `/Volumes/PortableSSD/GitHub/hermes-training/STANDARD_BENCHMARKS.md` |
+| Documentation plan | `/Volumes/PortableSSD/GitHub/hermes-training/DOCUMENTATION_PLAN.md` |
+| Applications | `/Volumes/PortableSSD/GitHub/hermes-training/APPLICATIONS.md` |
 
 ## Track Status
 
