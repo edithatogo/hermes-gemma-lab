@@ -10,6 +10,7 @@ This lane is a small, checked-in seed set for supervised strict tool-call traini
 - Expanded materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v1/{train,val,test,valid}.jsonl`
 - Format-guard materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v2/{train,val,test,valid}.jsonl`
 - `/no_think` augmented materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v3_no_think/{train,val,test,valid}.jsonl`
+- Free-text-copy repair materialized splits: `gemma4/data/strict_tool_call/expanded_splits_v6_free_text_copy/{train,val,test,valid}.jsonl`
 
 ## Format
 
@@ -47,6 +48,8 @@ For the current 10-example materialized seed, that yields 8 train examples, 1 va
 Expansion seeds under `gemma4/data/strict_tool_call/raw/expansion_seed_*.jsonl` are staged data until explicitly promoted into materialized splits. The original 10-example seed remains materialized under `splits/`; approved expanded raw seeds materialize to named `expanded_splits_*` directories for retrain attempts. Promotion must follow the same deterministic split policy across the approved raw seed files and must preserve `valid.jsonl` as an exact alias of `val.jsonl`.
 
 `expanded_splits_v2` adds explicit format-guard examples that forbid `<think>` and `</think>` wrappers. `expanded_splits_v3_no_think` duplicates the v2 training rows with `/no_think` prefixed to the first user turn; validation and test rows remain unaugmented so they continue to measure target behavior rather than prompt memorization. `expanded_splits_v4_targeted` adds non-heldout targeted rows for exact message extraction and nested object-array arguments; its no-prefill held-out run reached perfect empty-think-stripped diagnostic scoring, and its `/no_think` plus assistant-prefill run passed strict held-out scoring at `1.000`.
+
+`expanded_splits_v6_free_text_copy` starts from v5 and adds 8 training-only free-text-copy repair examples plus `/no_think` variants. This lane targets models that pass structural JSON/tool-call checks but paraphrase short user-provided `message`, `note`, `reason`, or `summary` arguments. The intended success criterion is a repeat held-out run with exact argument matching restored, not relaxed scoring.
 
 ## Contamination Guard
 

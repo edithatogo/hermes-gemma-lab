@@ -14,3 +14,8 @@ Each track index should surface its spec, plan, and the conductor-root requireme
 
 ## [x] Track: Qwen3 strict tool-call v5 pilot polish
 *Link: [./tracks/qwen3-v5-pilot-polish_20260525/](./tracks/qwen3-v5-pilot-polish_20260525/)*
+
+---
+
+## [x] Track: Strict tool-call v6 free-text copy setup
+*Link: [./tracks/strict-toolcall-v6-free-text-copy_20260613/](./tracks/strict-toolcall-v6-free-text-copy_20260613/)*

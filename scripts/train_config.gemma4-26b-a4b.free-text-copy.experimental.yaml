@@ -1,0 +1,21 @@
+# Experimental only: validate runtime support and memory before training.
+# This mirrors the v6 free-text-copy strict tool-call lane for Gemma 4 26B A4B.
+# Prefer endpoint/local inference benchmarking before attempting local LoRA.
+model: google/gemma-4-26B-A4B-it
+adapter_path: experiments/gemma4-26b-a4b-free-text-copy/lora_adapter
+data: data/strict_tool_call/expanded_splits_v6_free_text_copy
+lora_rank: 8
+lora_scale: 16.0
+lora_dropout: 0.0
+lora_layers: 8
+batch_size: 1
+iters: 30
+val_batches: 5
+steps_per_report: 5
+steps_per_eval: 10
+steps_per_save: 15
+max_seq_length: 1024
+learning_rate: 3.0e-5
+grad_checkpoint: true
+grad_accumulation_steps: 8
+seed: 61

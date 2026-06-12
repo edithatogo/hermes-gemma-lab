@@ -1,0 +1,8 @@
+{
+  "track_id": "strict-toolcall-v6-free-text-copy_20260613",
+  "type": "experiment-setup",
+  "status": "completed",
+  "created_at": "2026-06-13T00:00:00Z",
+  "updated_at": "2026-06-13T00:00:00Z",
+  "description": "Strict tool-call v6 free-text-copy repair dataset and config setup"
+}
