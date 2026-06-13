@@ -1,8 +1,8 @@
 {
   "track_id": "qwen3-candidate_20260522",
   "type": "feature",
-  "status": "planned",
+  "status": "completed",
   "created_at": "2026-05-22T00:00:00Z",
-  "updated_at": "2026-05-22T00:00:00Z",
+  "updated_at": "2026-06-13T01:19:35Z",
   "description": "Qwen3 4B candidate training plan"
 }
