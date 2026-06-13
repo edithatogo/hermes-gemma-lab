@@ -2,7 +2,8 @@
 # Prefer Gemma 4 26B A4B as an inference/runtime target first.
 model: google/gemma-4-26B-A4B-it
 adapter_path: experiments/gemma4-26b-a4b/lora_adapter
-data: data/splits
+data: data/gemma4_no_thinking/splits
+gemma4_no_thinking_empty_channel: true
 lora_rank: 8
 lora_scale: 16.0
 lora_dropout: 0.0

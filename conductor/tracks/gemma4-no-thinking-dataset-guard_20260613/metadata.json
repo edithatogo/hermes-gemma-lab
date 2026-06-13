@@ -1,0 +1,7 @@
+{
+  "id": "gemma4-no-thinking-dataset-guard_20260613",
+  "title": "Gemma 4 No-Thinking Dataset Guard",
+  "status": "complete",
+  "created_at": "2026-06-13",
+  "description": "Materialize Gemma 4 no-thinking datasets with empty thought channels and validate Gemma 4 26B/31B training configs."
+}

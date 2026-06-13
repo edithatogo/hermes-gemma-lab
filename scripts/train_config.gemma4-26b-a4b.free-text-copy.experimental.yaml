@@ -3,7 +3,8 @@
 # Prefer endpoint/local inference benchmarking before attempting local LoRA.
 model: google/gemma-4-26B-A4B-it
 adapter_path: experiments/gemma4-26b-a4b-free-text-copy/lora_adapter
-data: data/strict_tool_call/expanded_splits_v6_free_text_copy
+data: data/gemma4_no_thinking/expanded_splits_v6_free_text_copy
+gemma4_no_thinking_empty_channel: true
 lora_rank: 8
 lora_scale: 16.0
 lora_dropout: 0.0

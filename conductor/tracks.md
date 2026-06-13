@@ -19,3 +19,8 @@ Each track index should surface its spec, plan, and the conductor-root requireme
 
 ## [x] Track: Strict tool-call v6 free-text copy setup
 *Link: [./tracks/strict-toolcall-v6-free-text-copy_20260613/](./tracks/strict-toolcall-v6-free-text-copy_20260613/)*
+
+---
+
+## [x] Track: Gemma 4 No-Thinking Dataset Guard
+*Link: [./tracks/gemma4-no-thinking-dataset-guard_20260613/](./tracks/gemma4-no-thinking-dataset-guard_20260613/)*
