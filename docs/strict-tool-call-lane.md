@@ -51,6 +51,12 @@ Expansion seeds under `gemma4/data/strict_tool_call/raw/expansion_seed_*.jsonl` 
 
 `expanded_splits_v6_free_text_copy` starts from v5 and adds 8 training-only free-text-copy repair examples plus `/no_think` variants. This lane targets models that pass structural JSON/tool-call checks but paraphrase short user-provided `message`, `note`, `reason`, or `summary` arguments. The intended success criterion is a repeat held-out run with exact argument matching restored, not relaxed scoring.
 
+The 2026-06-13 v6 Qwen3 4B run restored the strict held-out gate at checkpoints
+100 and 125. Use checkpoint 125 for local Hermes strict tool-call integration:
+it passes both held-out and mirrored strict suites at `1.000`; checkpoint 100
+fails the mirrored argument-correctness regression, and the final 170-iteration
+adapter regresses to `0.875` held-out pass rate.
+
 ## Contamination Guard
 
 The held-out benchmark suite must never be copied, paraphrased, or mechanically transformed into training data. Before promoting any expansion seed, compare candidate records against both `benchmarks/tool_call_local/suite.json` and `benchmarks/tool_call_local/heldout_suite.json` for:

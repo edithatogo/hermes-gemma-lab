@@ -35,3 +35,16 @@
 - Decision: proceed to a bounded v6 train/benchmark run, starting with Qwen3 4B
   on local MLX and using Gemma 4 26B A4B as an experimental runtime-dependent
   candidate.
+
+## Follow-On Execution
+
+- [x] Task: train Qwen3 4B v6 locally under SSD-backed environment variables.
+- [x] Task: compare iter100, iter125, and final170 against the held-out strict
+  tool-call gate.
+- [x] Task: run mirrored strict regression and local BFCL-style, coding, and
+  IFEval-style pilots for the viable checkpoints.
+- [x] Task: create a local adapter alias for the selected checkpoint.
+
+Result: promote iteration 125 for local Hermes strict tool-call integration.
+It passes held-out and mirrored strict suites at `1.000`; final170 is rejected
+because it regresses to `0.875` on the held-out lab-order case.
