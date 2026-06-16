@@ -13,6 +13,7 @@ This directory contains non-heldout expansion material for the strict tool-call 
 - `expanded_splits_v2/{train,val,test,valid}.jsonl`: seed + v1 + v2 materialized splits.
 - `expanded_splits_v3_no_think/{train,val,test,valid}.jsonl`: v2 splits with `/no_think`-prefixed training duplicates.
 - `expanded_splits_v6_free_text_copy/{train,val,test,valid}.jsonl`: v5 splits plus non-heldout free-text-copy repair rows.
+- `expanded_splits_v7_safety_refusal_repair/{train,val,test,valid}.jsonl`: v6 splits plus non-heldout safety/refusal repair rows.
 
 ## Expansion Coverage
 
@@ -30,6 +31,8 @@ The examples target strict JSON formatting, exact argument capture, refusal when
 `expanded_splits_v3_no_think` duplicates the v2 training rows with `/no_think` prefixed to the first user turn. Validation and test rows are not augmented. This matches the held-out benchmark invocation shape while preserving the same strict assistant targets.
 
 `expanded_splits_v6_free_text_copy` starts from `expanded_splits_v5_pilot_polish` and appends 8 training-only free-text-copy repair examples plus `/no_think` variants. These examples target the observed held-out failure class where a model expands a short user-provided message/note/reason string instead of copying it exactly into a tool-call argument. The v6 additions do not reuse held-out prompts, ids, argument strings, or final assistant targets. One held-out tool-name overlap remains in the inherited v4/v5 training data; the v6 repair additions avoid held-out tool names and should be judged by prompt/target overlap rather than tool-name overlap alone.
+
+`expanded_splits_v7_safety_refusal_repair` starts from v6 and appends 14 training-only repair rows: 3 strict no-wrapper tool-call rows, 4 refusal rows that avoid echoing unavailable/disallowed action names, and `/no_think` variants for all 7 rows. These additions are derived from the 2026-06-16 safety/refusal repair queue but do not reuse the held-out case IDs, prompts, tool names, entity IDs, or final assistant targets. The v7 target gate is a strict rerun of the pinned safety/refusal suite with zero empty-think prefix cases.
 
 ## Split Policy
 
@@ -73,6 +76,7 @@ python3 gemma4/data/strict_tool_call/tools/build_format_guard_seed.py
 python3 gemma4/data/strict_tool_call/tools/materialize_expanded_splits_v2.py
 python3 gemma4/data/strict_tool_call/tools/materialize_no_think_splits_v3.py
 python3 gemma4/data/strict_tool_call/tools/materialize_free_text_copy_splits_v6.py
+python3 gemma4/data/strict_tool_call/tools/materialize_safety_refusal_repair_splits_v7.py
 ```
 
 The generator writes deterministic compact JSONL. Review the diff after regeneration and rerun JSONL plus overlap validation before using the data for training.
