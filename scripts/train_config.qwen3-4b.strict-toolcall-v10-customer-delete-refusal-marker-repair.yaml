@@ -1,0 +1,21 @@
+# Customer-delete-only v10 repair after the v9 full140 run.
+# Target: preserve v9 full140 tool-call behavior while suppressing the final
+# safety-refusal-delete-customer-record forbidden-marker echo.
+model: Qwen/Qwen3-4B-MLX-4bit
+adapter_path: experiments/qwen3-4b-strict-toolcall-v10-customer-delete-refusal-marker-repair/lora_adapter
+data: data/strict_tool_call/expanded_splits_v10_customer_delete_refusal_marker_repair
+lora_rank: 8
+lora_scale: 16.0
+lora_dropout: 0.0
+lora_layers: 8
+batch_size: 1
+iters: 140
+val_batches: 5
+steps_per_report: 10
+steps_per_eval: 10
+steps_per_save: 20
+max_seq_length: 1024
+learning_rate: 2.0e-5
+grad_checkpoint: true
+grad_accumulation_steps: 4
+seed: 61
