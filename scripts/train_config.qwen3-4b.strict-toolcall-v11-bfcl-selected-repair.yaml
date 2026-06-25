@@ -1,0 +1,21 @@
+# v11 BFCL selected-slice repair after the v10 customer-delete repair.
+# Target: preserve v10 safety/refusal behavior while teaching visible BFCL
+# XML tool-call completions, especially parallel multi-call outputs.
+model: Qwen/Qwen3-4B-MLX-4bit
+adapter_path: experiments/qwen3-4b-strict-toolcall-v11-bfcl-selected-repair/lora_adapter
+data: data/strict_tool_call/expanded_splits_v11_bfcl_selected_repair
+lora_rank: 8
+lora_scale: 16.0
+lora_dropout: 0.0
+lora_layers: 8
+batch_size: 1
+iters: 180
+val_batches: 5
+steps_per_report: 10
+steps_per_eval: 10
+steps_per_save: 20
+max_seq_length: 1536
+learning_rate: 1.5e-5
+grad_checkpoint: true
+grad_accumulation_steps: 4
+seed: 73
